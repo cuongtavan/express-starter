@@ -5,6 +5,12 @@ jobs:
       - image: circleci/node:9.6.1
     steps:
       - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
       - run:
           name: update-npm
           command: 'sudo npm install -g npm@latest'
@@ -16,6 +22,10 @@ jobs:
           name: Installing npm dependencies
           command: |
             sudo npm install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
       - run:
           name: Installing host package dependencies
           working_directory: /
