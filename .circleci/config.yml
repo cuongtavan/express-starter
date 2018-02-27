@@ -28,7 +28,6 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       - run:
           name: Installing host package dependencies
-          working_directory: /
           command: |
             sudo apt-get -y -qq update
             sudo apt-get install python-pip python-dev build-essential
